@@ -40,7 +40,7 @@ runs:
         exit 1
 
     - name: Setup Maven Action
-      uses: s4u/setup-maven-action@v1.16.0
+      uses: s4u/setup-maven-action@v1.18.0
         
     - name: Checkout repository
       uses: actions/checkout@v4
