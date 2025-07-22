@@ -39,4 +39,3 @@ jobs:
           comment-summary-in-pr: always
           show-openssf-scorecard: false
           license-check: false
-          warn-only: true
