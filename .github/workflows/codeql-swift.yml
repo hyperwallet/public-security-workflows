@@ -109,6 +109,17 @@ jobs:
           ${{ inputs.build-command }}
 
       - name: Perform CodeQL Analysis
+        id: codeql
         uses: github/codeql-action/analyze@45775bd8235c68ba998cffa5171334d58593da47
         with:
           category: "/language:swift"
+
+      - name: DataDog
+        if: always() && github.event_name != 'merge_group'
+        uses: hyperwallet/public-security-workflows/datadog@main
+        with:
+          SOURCE: "CodeQL"
+          DATADOG_API_KEY: ${{ env.BUILD_SECURITY_PAYPAL_DATADOG_QA_TOKEN_PAYPAL_DATADOG_QA_TOKEN }}
+          BU_NAME: "Venmo"
+          start_time: ${{ env.start_time }}
+          OUTCOME: "${{ steps.codeql.outcome }}"
