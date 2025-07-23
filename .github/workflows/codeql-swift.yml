@@ -44,7 +44,7 @@ jobs:
       - name: Capture start time
         run: echo "start_time=$(date +%s)" >> $GITHUB_ENV
         shell: bash
-             
+
       - name: Checkout
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
      
@@ -124,6 +124,6 @@ jobs:
         with:
           SOURCE: "CodeQL"
           DATADOG_API_KEY: ${{ secrets.BUILD_SECURITY_PAYPAL_DATADOG_QA_TOKEN_PAYPAL_DATADOG_QA_TOKEN }}
-          BU_NAME: "Venmo"
+          BU_NAME: "Hyperwallet"
           start_time: ${{ env.start_time }}
           OUTCOME: "${{ steps.codeql.outcome }}"
