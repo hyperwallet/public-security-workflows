@@ -65,9 +65,9 @@ jobs:
         uses: hyperwallet/public-security-workflows/codeql@datadog
         with:
           language: ${{ inputs.language }}
+          build-command: ${{ inputs.build-command }}
           build-mode: ${{ inputs.build-mode }}
           timeout-minutes: ${{ inputs.timeout-minutes }}
-          build-command: ${{ inputs.build-command }}
           queries: ${{ inputs.queries }}
 
       - name: DataDog
