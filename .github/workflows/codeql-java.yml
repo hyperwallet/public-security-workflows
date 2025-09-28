@@ -1,4 +1,4 @@
-name: CodeQL (Java-Kotlin)
+name: CodeQL (Java)
 
 on:
   workflow_call:
@@ -33,9 +33,15 @@ jobs:
         run: echo "start_time=$(date +%s)" >> $GITHUB_ENV
         shell: bash
 
+
+      - name: Setup Maven Action
+        if: ${{ inputs.language == 'java' }}
+        uses: s4u/setup-maven-action@v1.18.0
+
+
       - name: Perform CodeQL Analysis
         id: codeql
-        uses: hyperwallet/public-security-workflows/codeql/gradle@main
+        uses: hyperwallet/public-security-workflows/codeql@datadog
         with:
           language: java-kotlin
           build-mode: none
@@ -44,10 +50,10 @@ jobs:
 
       - name: DataDog
         if: always() && github.event_name != 'merge_group'
-        uses: hyperwallet/public-security-workflows/datadog@main
+        uses: hyperwallet/public-security-workflows/datadog@datadog
         with:
           SOURCE: "CodeQL"
-          DATADOG_API_KEY: ${{ secrets.BUILD_SECURITY_PAYPAL_DATADOG_QA_TOKEN_PAYPAL_DATADOG_QA_TOKEN }}
+          DATADOG_API_KEY: ${{ inputs.DATADOG_API_KEY }}
           BU_NAME: "Hyperwallet"
           start_time: ${{ env.start_time }}
           OUTCOME: "${{ steps.codeql.outcome }}"

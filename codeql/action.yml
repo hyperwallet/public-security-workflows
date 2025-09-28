@@ -49,9 +49,9 @@ runs:
         echo "Invalid input (timeout-minutes), maximum value is 99"
         exit 1
 
-    - name: Setup Maven Action
-      if: ${{ inputs.language == 'java' }}
-      uses: s4u/setup-maven-action@v1.18.0
+  #  - name: Setup Maven Action
+  #    if: ${{ inputs.language == 'java' }}
+  #    uses: s4u/setup-maven-action@v1.18.0
         
     - name: Checkout repository
       uses: actions/checkout@v4
