@@ -8,6 +8,9 @@ on:
         default: 20
         required: false
         type: number
+    secrets:
+      DATADOG_API_KEY:
+        required: true  
 
 permissions:
   contents: write
@@ -32,6 +35,10 @@ jobs:
           echo "Invalid input (timeout-minutes), maximum value is 99"
           exit 1
 
+      - name: Capture start time
+        run: echo "start_time=$(date +%s)" >> $GITHUB_ENV
+        shell: bash
+        
       - name: Checkout Repository
         uses: actions/checkout@v4
   
@@ -51,3 +58,14 @@ jobs:
           description: ${{ job.status == 'success' && 'Dependency review completed successfully.' || 'Dependency review failed.' }}
           context: ${{ env.STATUS_NAME }}
           github_token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: DataDog
+        uses: hyperwallet/public-security-workflows/datadog@datadog
+        with:
+          SOURCE: "Dependabot"
+          DATADOG_API_KEY: ${{ secrets.DATADOG_API_KEY }}
+          BU_NAME: "Chargehound"
+          start_time: ${{ env.start_time }}
+          OUTCOME: "${{ steps.dependabot.outcome }}"
+        if: always()    
+

@@ -1,17 +1,38 @@
-name: CodeQL (Java-Kotlin)
+name: CodeQL (Java)
 
 on:
   workflow_call:
     inputs:
+      language:
+        description: 'Language to analyze with CodeQL'
+        required: true
+        type: string
+        default: java
+      build-mode:
+        description: 'Build mode to compile language for analysis'
+        default: none
+        required: false
+        type: string
       timeout-minutes:
         description: 'Optional override for larger builds'
-        default: 0
+        default: 20
         required: false
         type: number
       build-command:
         description: 'Optional application build command'
         required: false
         type: string
+      queries:
+        description: "CodeQL queries to run. Prefix with + to run in addition to the default queries"
+        required: false
+        type: string
+      threads:
+        description: "The number of threads that can be used by CodeQL for database finalization and query execution.If not specified input all hardware threads available in the system will be used"
+        required: false
+        type: string
+    secrets:
+      DATADOG_API_KEY:
+        required: false           
         
 jobs:
   analyze:
@@ -33,21 +54,30 @@ jobs:
         run: echo "start_time=$(date +%s)" >> $GITHUB_ENV
         shell: bash
 
+
+      - name: Setup Maven Action
+        if: ${{ inputs.language == 'java' }}
+        uses: s4u/setup-maven-action@v1.18.0
+
+
       - name: Perform CodeQL Analysis
         id: codeql
-        uses: hyperwallet/public-security-workflows/codeql/gradle@main
+        uses: hyperwallet/public-security-workflows/codeql@main
         with:
-          language: java-kotlin
-          build-mode: none
-          timeout-minutes: ${{ inputs.timeout-minutes }}
+          language: ${{ inputs.language }}
           build-command: ${{ inputs.build-command }}
+          build-mode: ${{ inputs.build-mode }}
+          timeout-minutes: ${{ inputs.timeout-minutes }}
+          queries: ${{ inputs.queries }}
+          DATADOG_API_KEY: ${{ secrets.DATADOG_API_KEY }}
+
 
       - name: DataDog
         if: always() && github.event_name != 'merge_group'
         uses: hyperwallet/public-security-workflows/datadog@main
         with:
           SOURCE: "CodeQL"
-          DATADOG_API_KEY: ${{ secrets.BUILD_SECURITY_PAYPAL_DATADOG_QA_TOKEN_PAYPAL_DATADOG_QA_TOKEN }}
+          DATADOG_API_KEY: ${{ secrets.DATADOG_API_KEY }}
           BU_NAME: "Hyperwallet"
           start_time: ${{ env.start_time }}
           OUTCOME: "${{ steps.codeql.outcome }}"
