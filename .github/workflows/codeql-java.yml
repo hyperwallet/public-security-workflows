@@ -11,7 +11,7 @@ on:
       build-mode:
         description: 'Build mode to compile language for analysis'
         default: none
-        required: true
+        required: false
         type: string
       timeout-minutes:
         description: 'Optional override for larger builds'
