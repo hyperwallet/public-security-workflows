@@ -52,7 +52,7 @@ jobs:
           license-check: false
       - name: Update commit status
         if: always()
-        uses: hyperwallet/public-security-workflows/.github/actions/commit-status@main
+        uses: hyperwallet/public-security-workflows/commit-status@main
         with:
           state: ${{ job.status == 'success' && 'success' || 'failure' }}
           description: ${{ job.status == 'success' && 'Dependency review completed successfully.' || 'Dependency review failed.' }}
