@@ -10,7 +10,7 @@ on:
         type: number
     secrets:
       DATADOG_API_KEY:
-        required: false           
+        required: true  
 
 permissions:
   contents: write
