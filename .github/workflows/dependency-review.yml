@@ -44,6 +44,7 @@ jobs:
   
       - name: Dependency Review       
         uses: actions/dependency-review-action@v4
+        id: dependabot
         with:
           fail-on-severity: critical
           fail-on-scopes: runtime
