@@ -92,10 +92,9 @@ runs:
       uses: hyperwallet/public-security-workflows/datadog@datadog
       with:
         SOURCE: "CodeQL"
-        DATADOG_API_KEY: ${{ secrets.DATADOG_API_KEY }}
         BU_NAME: "hyperwallet"
         start_time: ${{ env.start_time }}
         OUTCOME: "${{ steps.codeql.outcome }}"
-      #secrets:
-      #  DATADOG_API_KEY: ${{ secrets.DATADOG_PAYPAL_QA_TOKEN }}        
+      secrets:
+        DATADOG_API_KEY: ${{ secrets.DATADOG_PAYPAL_QA_TOKEN }}        
       if: always()    
