@@ -27,11 +27,21 @@ inputs:
   threads:
     description: "The number of threads that can be used by CodeQL for database finalization and query execution.If not specified input all hardware threads available in the system will be used"
     required: false
+    type: string
+  DATADOG_API_KEY:
+    description: 'DATADOG API KEY'
+    required: true
     type: string  
+    
+
     
 runs:
   using: "composite"
   steps:
+    - name: Capture start time
+      run: echo "start_time=$(date +%s)" >> $GITHUB_ENV
+      shell: bash
+
     - name: Validate Input (timeout-minutes)
       if: ${{ inputs.timeout-minutes > 99 }}
       shell: bash
@@ -40,6 +50,7 @@ runs:
         exit 1
 
     - name: Setup Maven Action
+      if: ${{ inputs.language == 'java' }}
       uses: s4u/setup-maven-action@v1.18.0
         
     - name: Checkout repository
@@ -76,3 +87,15 @@ runs:
       uses: github/codeql-action/analyze@v3
       with:
         category: "/language:${{ github.event.inputs.language }}"
+
+    - name: DataDog
+      uses: hyperwallet/public-security-workflows/datadog@datadog
+      with:
+        SOURCE: "CodeQL"
+        DATADOG_API_KEY: ${{ inputs.DATADOG_API_KEY }}
+        BU_NAME: "hyperwallet"
+        start_time: ${{ env.start_time }}
+        OUTCOME: "${{ steps.codeql.outcome }}"
+      #secrets:
+      #  DATADOG_API_KEY: ${{ secrets.DATADOG_PAYPAL_QA_TOKEN }}        
+      if: always()    
