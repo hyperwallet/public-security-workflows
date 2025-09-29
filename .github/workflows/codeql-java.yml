@@ -72,12 +72,12 @@ jobs:
           DATADOG_API_KEY: ${{ secrets.DATADOG_API_KEY }}
 
 
-      - name: DataDog
-        if: always() && github.event_name != 'merge_group'
-        uses: hyperwallet/public-security-workflows/datadog@main
-        with:
-          SOURCE: "CodeQL"
-          DATADOG_API_KEY: ${{ secrets.DATADOG_API_KEY }}
-          BU_NAME: "Hyperwallet"
-          start_time: ${{ env.start_time }}
-          OUTCOME: "${{ steps.codeql.outcome }}"
+  #    - name: DataDog
+  #      if: always() && github.event_name != 'merge_group'
+  #      uses: hyperwallet/public-security-workflows/datadog@main
+  #      with:
+  #        SOURCE: "CodeQL"
+  #        DATADOG_API_KEY: ${{ secrets.DATADOG_API_KEY }}
+  #      BU_NAME: "Hyperwallet"
+  #        start_time: ${{ env.start_time }}
+  #       OUTCOME: "${{ steps.codeql.outcome }}"

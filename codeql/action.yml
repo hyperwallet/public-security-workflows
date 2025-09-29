@@ -30,7 +30,7 @@ inputs:
     type: string
   DATADOG_API_KEY:
     description: 'DATADOG API KEY'
-    required: true
+    required: false
     type: string  
     
 
@@ -89,14 +89,14 @@ runs:
       with:
         category: "/language:${{ github.event.inputs.language }}"
 
-    - name: DataDog
-      uses: hyperwallet/public-security-workflows/datadog@datadog
-      with:
-        SOURCE: "CodeQL"
-        DATADOG_API_KEY: ${{ inputs.DATADOG_API_KEY }}
-        BU_NAME: "hyperwallet"
-        start_time: ${{ env.start_time }}
-        OUTCOME: "${{ steps.codeql.outcome }}"
+ #   - name: DataDog
+ #     uses: hyperwallet/public-security-workflows/datadog@datadog
+ #     with:
+ #       SOURCE: "CodeQL"
+ #       DATADOG_API_KEY: ${{ inputs.DATADOG_API_KEY }}
+ #       BU_NAME: "hyperwallet"
+ #       start_time: ${{ env.start_time }}
+ #       OUTCOME: "${{ steps.codeql.outcome }}"
       #secrets:
       #  DATADOG_API_KEY: ${{ secrets.DATADOG_PAYPAL_QA_TOKEN }}        
-      if: always()    
+#    if: always()    

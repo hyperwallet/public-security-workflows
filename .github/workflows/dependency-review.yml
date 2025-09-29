@@ -10,7 +10,7 @@ on:
         type: number
     secrets:
       DATADOG_API_KEY:
-        required: true  
+        required: false  
 
 permissions:
   contents: write
@@ -60,13 +60,13 @@ jobs:
           context: ${{ env.STATUS_NAME }}
           github_token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: DataDog
-        uses: hyperwallet/public-security-workflows/datadog@datadog
-        with:
-          SOURCE: "Dependabot"
-          DATADOG_API_KEY: ${{ secrets.DATADOG_API_KEY }}
-          BU_NAME: "Chargehound"
-          start_time: ${{ env.start_time }}
-          OUTCOME: "${{ steps.dependabot.outcome }}"
-        if: always()    
+     # - name: DataDog
+     #   uses: hyperwallet/public-security-workflows/datadog@datadog
+     #   with:
+     #     SOURCE: "Dependabot"
+     #     DATADOG_API_KEY: ${{ secrets.DATADOG_API_KEY }}
+     #     BU_NAME: "Chargehound"
+     #     start_time: ${{ env.start_time }}
+     #     OUTCOME: "${{ steps.dependabot.outcome }}"
+     #   if: always()    
 
