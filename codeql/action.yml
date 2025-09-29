@@ -85,6 +85,7 @@ runs:
 
     - name: Perform CodeQL Analysis
       uses: github/codeql-action/analyze@v3
+      id: codeql
       with:
         category: "/language:${{ github.event.inputs.language }}"
 
