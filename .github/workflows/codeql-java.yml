@@ -69,7 +69,7 @@ jobs:
           build-mode: ${{ inputs.build-mode }}
           timeout-minutes: ${{ inputs.timeout-minutes }}
           queries: ${{ inputs.queries }}
-          DATADOG_API_KEY: ${{ secrets.DATADOG_API_KEY }}
+         # DATADOG_API_KEY: ${{ secrets.DATADOG_API_KEY }}
 
 
   #    - name: DataDog
@@ -81,3 +81,4 @@ jobs:
   #      BU_NAME: "Hyperwallet"
   #        start_time: ${{ env.start_time }}
   #       OUTCOME: "${{ steps.codeql.outcome }}"
+

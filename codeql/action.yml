@@ -31,7 +31,7 @@ inputs:
   DATADOG_API_KEY:
     description: 'DATADOG API KEY'
     required: false
-    type: string  
+
     
 
     
@@ -100,3 +100,4 @@ runs:
       #secrets:
       #  DATADOG_API_KEY: ${{ secrets.DATADOG_PAYPAL_QA_TOKEN }}        
 #    if: always()    
+
